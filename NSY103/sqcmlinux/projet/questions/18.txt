@@ -1,0 +1,8 @@
+Pour commencer, qui a développé le noyau de linux ?
+1.Bill Gates
+2.Larry Ellison
+3.Linus Torvalds
+4.Steeve Jobs
+#SolutionQ:3
+#BonneReponseQ:0
+#MauvaiseReponseQ:5

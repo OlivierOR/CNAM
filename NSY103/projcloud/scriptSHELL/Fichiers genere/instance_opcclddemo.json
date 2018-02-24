@@ -1,0 +1,49 @@
+{
+#commantaire description du fichiere
+"description": "SSimple orchestration plan with ssh keys and security list",
+#nom que l'on veut donner a notre instance dans le compte oracle dans le volet orchestration
+"name": "/Compute-capgemingbebri/loic.gbebri@capgemini.com/instance",
+#configuration de d'instance (configuration de la machine virtuel
+"oplans": [
+{
+#nom que l'on donne a l'instance 
+"label": "instance",
+"obj_type": "launchplan",
+"ha_policy": "active",
+"objects": [
+{
+"instances": [
+{
+#image de la vm os linux version 6.6 20Go de memoire
+"imagelist" : "/oracle/public/OL-6.6-20GB-x11-RD",
+"label": "instance",
+#attachemant d'un espace de stockage (cf. fichier volume.json)
+"storage_attachments": [
+{
+"index": 1,
+#chemain ou trouver le volume dans le compte oracle cloud
+"volume": "/Compute-kamel/kamel.hem@capgemini.com/volume"
+}
+],
+"networking": {
+"eth0": {
+"seclists": [
+#liste de securite par defaut (il est possible de lui en affecter une) 
+"/Compute-kamel/default/default"
+],
+"nat": "ippool:/oracle/public/ippool"
+}
+},
+#nombre de processeur (cpu) la dans ce cas c'est un seul nous pouvons lui en affecter plusieurs 
+"shape": "oc3",
+#clef de securite de notre machine virtuel, decrivent le chemain ou trouver le volume dans le compte oracle cloud
+"sshkeys": [
+"/Compute-kamel/kamel.hem@capgemini.com/rsa-key-1"
+]
+}
+]
+}
+]
+}
+]
+}

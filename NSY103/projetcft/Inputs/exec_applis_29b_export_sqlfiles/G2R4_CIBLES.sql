@@ -1,0 +1,15 @@
+SET HEAD OFF
+SET TERM OFF
+SET ECHO OFF
+SET FEEDBACK OFF
+SET TRIMSPOOL ON
+SET COLSEP ";"
+spool ${ficdata}
+set linesize 2000;
+select 
+TO_CHAR(CIB_CODE),
+TO_CHAR(CIB_LIBEL)
+from
+G2R4_CIBLES
+  ; 
+spool off

@@ -1,0 +1,8 @@
+Quelle commande permet de supprimer un fichier ?
+1.Rm
+2.Remove
+3.Del
+4.Delete
+#SolutionQ:1
+#BonneReponseQ:5
+#MauvaiseReponseQ:6

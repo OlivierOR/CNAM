@@ -1,0 +1,8 @@
+Que fait la commande su ?
+1.Passe en super-utilisateur
+2.Vide la corbeille
+3.Monte une partition formatée
+4.Ne fait rien
+#SolutionQ:1
+#BonneReponseQ:4
+#MauvaiseReponseQ:4

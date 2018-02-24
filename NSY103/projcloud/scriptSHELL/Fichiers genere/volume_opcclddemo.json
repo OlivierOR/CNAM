@@ -1,0 +1,25 @@
+{
+#commantaire description du fichiere
+"description": "SSimple orchestration plan with ssh keys and security list",
+#nom que l'on veut donner a notre instance dans le compte oracle dans le volet orchestration
+"name": "/Compute-kamel/kamel.hem@capgemini.com/volume",
+#configuration du volume attaché a la machine virtuel (configuratioon de la machine virtuel)
+"oplans": [
+{t
+#nom que l'on donne au volume dans le compte oracle dans le volet stockage
+"label": "volume",
+"obj_type": "storage/volume",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-kamel/kamel.hem@capgemini.com/volume",
+#taille que lon veut affecter au volume attaché a notre instance
+"size": "22G",
+"index": 1,
+#sans option particuliere il est possible de lui donner des mode de fonctinnement comme mode bootable ....
+"properties":["/oracle/public/storage/default"]
+}
+]
+}
+]
+}

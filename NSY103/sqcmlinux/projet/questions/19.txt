@@ -1,0 +1,8 @@
+Quelle proposition est une distribution linux ?
+1.Zubuntu
+2.Redhat
+3.Mandrika 2.9
+4.Souze
+#SolutionQ:2
+#BonneReponseQ:3
+#MauvaiseReponseQ:2

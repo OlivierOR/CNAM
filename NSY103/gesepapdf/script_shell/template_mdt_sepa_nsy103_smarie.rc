@@ -1,0 +1,44 @@
+######################################################################
+# Fichier template_mdt_sepa_nsy103_smarie.rc
+# Variable contenant le template du mandat SEPA
+########################################################################
+TEMPLATE_MANDAT="\\documentclass[a4paper]{article}"
+
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\usepackage{calc}"
+
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\begin{document}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\begin{flushleft}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{MANDAT DE PRELEVEMENT SEPA} \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  RUM : SEPA_RUM \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\end{flushleft}"
+
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\begin{flushleft}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\fbox{"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\parbox{10cm}{"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\setlength{\\parskip}{.5cm}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{CREANCIER} \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  Identifiant Créancier SEPA : \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Nom du créancier :} Sainte Anne - Saint Joachim  \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Adresse :} 198 rue du bois \\newline 2 bis parvis ND de Pellevoisin \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Code postal :} 59000"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Ville :} Lille"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  }}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\end{flushleft}"
+
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\begin{flushleft}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\fbox{"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\parbox{10cm}{"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\setlength{\\parskip}{.5cm}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{DEBITEUR} \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Nom :} SEPA_NOM \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Prenom :} SEPA_PRENOM \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Adresse :} SEPA_ADRESSE \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Code postal :} SEPA_CP \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Ville :} SEPA_VILLE \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Coordonnées Bancaire :} SEPA_IBAN \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{BIC :} \\newline"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  \\textbf{Signe à :} \\newline"
+
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"  }}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\end{flushleft}"
+TEMPLATE_MANDAT=$TEMPLATE_MANDAT"\\end{document}"

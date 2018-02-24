@@ -1,0 +1,379 @@
+#!/bin/bash
+
+
+
+
+
+Creer_recur ()
+
+{
+
+    # --- Création récursive de dossier d'après un nom ---
+
+    if [[ ! -d $1 ]]; then
+
+        i=0
+
+        until [[ "$d" -ef "$1" ]]; do
+
+            i=$(($i+1));
+
+            d="$(cut -d/ -f 1-$i <<< "$1" )";
+
+            /bin/mkdir -vp $d;
+
+        done;
+
+    fi;
+
+}
+
+#until [[ -d "$(dirname $conkytodo)" ]]; do
+
+#    mkdir -p "$dossier" && dossier="$(dirname $conkytodo)" ||    dossier="$(dirname $dossier)"
+
+#done;
+
+
+
+tododir=~/.todo/
+
+conkytodo=~/.conky/todolist
+
+Creer_recur $tododir
+
+Creer_recur $(dirname $conkytodo)
+
+cd $tododir
+
+
+
+ListeTaches () { ls $tododir | grep -E "^([1-9][0-9]|[1-9])\.todo" | sort -n | xargs cat | sed 's/todo=//'; }
+
+
+
+detruire()
+
+{
+
+    rm -fv $1 || echo "Retour";
+
+    continue
+
+}
+
+
+
+#Demander si l'on veut ajouter ou supprimer une tache
+
+action_ajout="1 Ajouter une tache"
+
+action_suppr="2 Supprimer une tache"
+
+action_affiche="3 Afficher les taches"
+
+action_modif="4 Modifier une tache"
+
+action_deplace="5 Déplacer une tache"
+
+action_conky="6 Editer/Lancer conky"
+
+action_editer="0 Éditer le script"
+
+ChoixAction()
+
+{
+
+    zenity --list --title "Ajouter ou supprimer" --text "Voulez-vous ajouter ou supprimer une tache ?" --column "Ajout-Suppresion" "$action_ajout" "$action_suppr" "$action_affiche" "$action_modif" "$action_deplace" "$action_conky" "$action_editer" --height=300 || return 2
+
+}
+
+
+
+while true; do
+
+    action=`ChoixAction`
+
+    [[ ! $action ]] && echo "Fin..." && exit 2
+
+        
+
+    nbtaches=`ls . | grep -E "^([1-9][0-9]|[1-9])\.todo" | wc -l`
+
+
+
+    if [ "$action" = "$action_ajout" ]; then 
+
+        ## Ajouter une tache
+
+        #On demande quelle priorite on veut attribuer a la tache
+
+        max_numtache=$(($nbtaches+1));
+
+        echo "todo=$max_numtache/ " > $max_numtache.todo
+
+        numtache=`ListeTaches | zenity --list --title="Ajout" --column="Quelle priorité voulez-vous donner à la tâche ?" --height=400 --width=300 | grep -oE "^([1-9]?[0-9])"` || detruire $max_numtache.todo
+
+        
+
+        if [[ $numtache -ge $max_numtache ]]; then
+
+            # $max_numtache est le maximum pour garder une cohérence dans les fichiers.
+
+            numtache=$max_numtache ;
+
+            tache=`zenity --entry --title "Objet de la tache." --text "Quelle est cette tache ?" --entry-text "Tache n°$numtache" --width=600` || detruire $max_numtache.todo
+
+            echo "todo=$numtache/ $tache" > $numtache.todo
+
+        else
+
+            # On demande la tache avant pour laisser une chance d'annuler avant de tout modifier.
+
+            tache=`zenity --entry --title "Objet de la tache." --text "Quelle est cette tache ?" --entry-text "Tache n°$numtache"` || continue
+
+        
+
+            # On décale tous les fichiers supérieurs à $numtache (y compris $numtache puisqu'on veut prendre sa place)
+
+            for i in `seq $nbtaches -1 $numtache`
+
+            do
+
+                j=$(($i+1))
+
+                mv $i.todo $j.todo
+
+                sed -i "s/$i/$j/" $j.todo
+
+            done
+
+        
+
+            # On remplit avec la tache.
+
+            echo "todo=$numtache/ $tache" > $numtache.todo
+
+        fi;
+
+
+
+    elif [ "$action" = "$action_suppr" ]; then
+
+        # Supprimer une tache
+
+        numtache=`ListeTaches | zenity --list --title="Suppression" --column="Quelle tache supprimer ?" --height=400 --width=300 | grep -oE "^([1-9]?[0-9])"` || continue
+
+        rm -f $numtache.todo
+
+        avantder=$(($nbtaches-1))
+
+        # La suite est vide si $numtache est le dernier > $avantder.
+
+        # Elle contient un element s'il est $avantder.
+
+        for i in `seq $numtache $avantder`
+
+        do
+
+            j=$(($i+1))
+
+            mv $j.todo $i.todo
+
+            sed -i "s/$j/$i/" $i.todo
+
+        done
+
+
+
+    elif [ "$action" = "$action_affiche" ]; then
+
+        ListeTaches | zenity --list --title="Affichage" --column="Affichage Complet" --height=550 --width=400
+
+
+
+    elif [ "$action" = "$action_modif" ]; then
+
+        #Modifier une tache.
+
+        numtache=`ListeTaches | zenity --list --title="Modification" --column="Quelle entrée modifier ?" --height=400 --width=300 | grep -oE "^([1-9]?[0-9])"` || continue
+
+        anctache=`cat $numtache.todo | sed 's/.*\/ //'`
+
+        nouvtache=`zenity --entry --title "Objet de la tache." --text "Quelle est cette tache ?" --entry-text "$anctache" --width=600` || continue
+
+        echo "todo=$numtache/ $nouvtache" > $numtache.todo
+
+    
+
+   elif [ "$action" = "$action_editer" ]; then
+
+      gedit $0
+
+      bash $0
+
+      exit
+
+      
+
+   elif [ "$action" = "$action_conky" ]; then
+
+      # -------------- Conky ------------- #
+
+   # On tue le conky qui utilise le fichier $conkytodo
+
+    kill $( ps x | grep conky | grep "$conkytodo" | grep -oE "(`pidof conky | sed 's/ /|/g'`)" ) || echo "Conky n'est pas lancé avec le todolist."
+
+    if [[ ! -f $conkytodo ]]; then
+
+        echo "background              yes
+
+double_buffer           yes
+
+use_xft                 yes
+
+xftfont                 terminius:size=12
+
+xftfont                 Orbitron:size=13
+
+update_interval         1 
+
+alignment               bottom_left
+
+gap_x                   10
+
+gap_y                   10
+
+no_buffers              yes 
+
+maximum_width           270
+
+pad_percents            3
+
+own_window     yes
+
+own_window_transparent  yes
+
+own_window_type   override
+
+
+
+default_color        F0F0F0
+
+color0        f0f0f0 # Gris clair / blanc
+
+color1        902010 # Rouge
+
+color2        485E37 # Vert
+
+
+
+TEXT
+
+\${color2}\${exec date '+Le %a %d %b %Y'}
+
+\${color0}\${exec date '+Il est %H h %M min'}
+
+\${color1}Uptime : \${uptime}\${color0}
+
+#\${alignc}\${color2}CPU : \${cpu cpu1}%      \${color}RAM : \${memperc}% 
+
+\${hr}
+
+GMail : - \${color1}\${execi 30 $HOME/.nbmail-bin}\${color0} -
+
+#\${font Battlestar}\${font}
+
+\$hr
+
+\${color2}To \${color}do \${color1}list \${color0}:
+
+
+
+#\${font terminius}\${font}
+
+\${exec ls $tododir[1-9].todo | xargs cat | grep todo | cut -d= -f2 | sed '/^$/d' }
+
+\$hr" > $conkytodo
+
+    fi;
+
+    gedit $conkytodo &
+
+   conky -c $conkytodo
+
+      
+
+   elif [ "$action" = "$action_deplace" ]; then
+
+
+
+        numorig=`ListeTaches | zenity --list --title="Déplacement" --column="Origine" --height=400 --width=300 | grep -oE "^([1-9]?[0-9])"` || continue
+
+        numcible=`ListeTaches | zenity --list --title="Déplacement" --column="Cible" --height=400 --width=300 | grep -oE "^([1-9]?[0-9])"` || continue
+
+        
+
+        if [[ $numorig == $numcible ]]; then
+
+            continue;
+
+        elif [[ $numorig -lt $numcible ]]; then
+
+            mv $numorig.todo tmp.todo;
+
+            avantcible=$(($numcible-1));
+
+            for i in `seq $numorig $avantcible`; do
+
+                j=$(($i+1))
+
+                mv $j.todo $i.todo
+
+                sed -i "s/$j/$i/" $i.todo
+
+            done
+
+            mv tmp.todo $numcible.todo;
+
+            sed -i "s/$numorig/$numcible/" $numcible.todo
+
+        else
+
+            mv $numorig.todo tmp.todo;
+
+            avantorig=$(($numorig-1));
+
+            for i in `seq $avantorig -1 $numcible`; do
+
+               j=$(($i+1))
+
+                mv $i.todo $j.todo
+
+                sed -i "s/$i/$j/" $j.todo
+
+            done
+
+            mv tmp.todo $numcible.todo
+
+            sed -i "s/$numorig/$numcible/" $numcible.todo
+
+        fi;
+
+        
+
+    else
+
+        zenity --info --text="L'option « $action » n'est pas encore disponible.\n Réessayez plus tard."
+
+
+
+    fi;
+
+
+
+done ;
+
+
+
+echo "Au revoir ! "

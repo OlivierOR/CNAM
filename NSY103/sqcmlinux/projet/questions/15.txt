@@ -1,0 +1,8 @@
+Quelle commande permet de créer un lien symbolique ?
+1.Symbol
+2.Lsym
+3.Ln -s
+4.Ln -ls
+#SolutionQ:3
+#BonneReponseQ:1
+#MauvaiseReponseQ:4

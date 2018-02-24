@@ -1,0 +1,8 @@
+Que fait la commande chmod ?
+1.Change le nom d'un dossier
+2.Change le nom de la machine
+3.Modifie la taille d'un fichier
+4.Modifie les droits
+#SolutionQ:4
+#BonneReponseQ:2
+#MauvaiseReponseQ:7

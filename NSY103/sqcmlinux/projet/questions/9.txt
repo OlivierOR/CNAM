@@ -1,0 +1,8 @@
+J'aimerais afficher les 10 dernières lignes d'un fichier, quelle commande me le permet ?
+1.Last
+2.Final
+3.Head
+4.Tail
+#SolutionQ:4
+#BonneReponseQ:2
+#MauvaiseReponseQ:6

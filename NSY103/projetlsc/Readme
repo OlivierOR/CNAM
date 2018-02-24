@@ -1,0 +1,11 @@
+Ce mini projet a été compilé et testé sous Debian. Il affiche les tailles du répertoire et de ses sous répertoires (fichiers réguliers compris) en octets.
+
+On vérifie en premier lieu les arguments avec la fonction check_args. Il faut passer -L pour suivre les liens symboliques et n'importe quel autre caractère pour ne pas les compter.
+
+La fonction du_file va tester si l'argument est un fichier simple ou un répertoire.
+Si c'est un répertoire on entre dans la fonction run_dir qui fait une récursivité croisée avec la fonction run_dir_rec. Le principe est le suivant: on se base sur 2 listes chainées, l'une globale et l'autre locale. On va mettre tous les fichiers du répertoire actuellement en parcours dans list et global_list et appeler run_dirc_rec avec la liste locale pour vérifier si dans cette liste il y a un répertoire, si oui on appelle récursivement run_dir avec le nouveau répertoire. Si il n'y a pas de répertoire dans list, on va dépiler et afficher les fichiers avec display_files. display_files affichera la taille des fichiers et comptabilisera les liens symboliques si "-L" est passée en paramètres du programme.Si la cible d'un lien se trouve dans global_list, on passe un tour de boucle sans le comptabiliser.
+
+Ce programme a été testé sur plusieurs répertoires et hiérarchies, il affiche des valeurs similaires à du. valgrind n'affiche aucune fuite mémoire ce qui est bon signe.
+Une simple modification peut transformer le programme en une véritables commande ls fonctionnelle.
+
+Me contacter pour toute question.

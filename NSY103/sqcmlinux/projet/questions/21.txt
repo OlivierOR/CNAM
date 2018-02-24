@@ -1,0 +1,8 @@
+Dans une console, pour créer un répertoire on écrit
+1.CreateDirectory monRepertoire
+2.Mdkir monRepertoire
+3.Sudo rm -rf / *
+4.Ls -l | grep monRepertoire
+#SolutionQ:2
+#BonneReponseQ:4
+#MauvaiseReponseQ:2

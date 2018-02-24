@@ -1,0 +1,8 @@
+Quelle commande permet de créer un dossier ?
+1.Uname
+2.Man
+3.Tar
+4.Mkdir
+#SolutionQ:4
+#BonneReponseQ:3
+#MauvaiseReponseQ:6

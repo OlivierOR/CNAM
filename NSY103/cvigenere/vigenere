@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# Vérification nom de fichier fourni
+[ $# -eq 0 ] && { echo "$0:Indiquez un nom de fichier"; exit; }
+# Vérification nom de fichier valide 
+[ ! -f $1 ] && { echo "$0: fichier $1 non trouvé"; exit; }
+# Copie du fichier
+cp  $1 maj
+# Suppression du fichier trad si il existe
+[ -f trad ] && { rm trad; }
+# Lettres minuscules et accents supprimées
+sed -i 'y/abcdefghijklmnopqrstuvwxyzéèêàùâûîôäëïöü/ABCDEFGHIJKLMNOPQRSTUVWXYZEEEAUAUIOAEIOU/' maj
+# Saisie du mot de passe
+read -p 'Veuillez saisir le mot de passe : ' mdp
+echo $mdp > mdp
+# Mot de passe converti en majuscules
+sed -i 'y/abcdefghijklmnopqrstuvwxyzéèêàùâûîôäëïöü/ABCDEFGHIJKLMNOPQRSTUVWXYZEEEAUAUIOAEIOU/' mdp
+mdp=$(cat mdp)
+# On vérifie que le mot de passe ne contient que des lettres
+testmdp=$(echo $mdp | grep [0-9])
+[ $testmdp != "" ] && { echo "Le mot de passe ne doit contenir que des lettres"; exit; }
+# Choix du sens de codage
+read -p 'Tapez 1 pour coder, 2 pour décoder : ' code
+if [ $code = 1 ]; then
+    echo "Nous allons coder le texte contenu dans " $1
+elif [ $code = 2 ]; then
+    echo "Nous allons décoder le texte contenu dans " $1
+else "mauvais choix"
+fi
+# définition de $p : nombre de caractères contenus dans le mot de passe
+p=$(($(cat mdp | wc -m)-1))
+# définition de $k : position du caractère du mot de passe utilisé pour coder/décoder
+k=0
+# définition de $n : nombre de lignes du texte à coder/decoder
+n=$(cat maj | wc -l)
+# Initialisation de i, utilisé dans la première boucle why, i = ligne en cours
+i=1
+# while loop, lit une ligne à la fois (noter le < après le done)
+while read line
+do
+#	Stocker la ligne sur laquelle on travaille dans le fichier 'ligne'
+cat maj | head -$i | tail -1 > ligne
+#	while loop, lit un caractère à la fois
+#	le caractère est stocké dans $acoder
+	while IFS= read -r -n1 acoder
+    do
+	echo ${acoder:0:1} > acoder
+	# If pour échapper les espaces
+	if [ $acoder != [[:space:]] ] ; then
+		# clef = le k-ieme caractère du mot de passe
+		clef=${mdp:k:1}
+		# aller chercher la phrase de decryptage, n'en conserver que l'alphabet
+		phrase=$(awk -F';' '$1'" ~ /^"$clef"/{print $2}" dico)
+		phrase=${phrase:2:26}
+		# utiliser sed pour traduire le caractère courant
+		if [ $code = "1" ]; then
+			coder=$(sed -e "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/"$phrase"/" < acoder)
+		else coder=$(sed -e "y/"$phrase"/ABCDEFGHIJKLMNOPQRSTUVWXYZ/" < acoder)
+		fi
+		# soit le fichier ligneencours existe et on ajoute le caractère traduit à la fin, soit on le crée
+		if [ ! -f ligneencours ]
+		then
+			echo $coder > ligneencours
+		else
+			sed -i "s/$/"$coder"/" ligneencours
+		fi
+		# incrémentation de k uniquement si on a traduit le caractère. 
+		#Si le caractère courant est un chiffre ou une ponctuation, on ne le traduit pas, donc il ne faut pas incrémenter k
+		if test "$coder" != "$acoder" ; then
+			((k++))
+			if [ $k -ge $p ]; then
+				k=0
+			fi
+		fi
+	else
+	sed -i "s/$/ /" ligneencours
+	# 2>/dev/null car le if génere des messages d'erreur non critiques
+    fi 2>/dev/null
+	# fin pour
+	done < ligne
+	# envoi de la ligne traduite dans le fichier trad
+cat ligneencours >> trad
+# incrémentation de i
+((i++))
+# suppression de ligneencours
+rm ligneencours
+# fin pour
+done < maj
+# suppression des fichiers
+rm mdp maj ligne acoder
+# message de fin
+echo "le fichier a été traduit, le résultat est disponible dans le fichier trad"

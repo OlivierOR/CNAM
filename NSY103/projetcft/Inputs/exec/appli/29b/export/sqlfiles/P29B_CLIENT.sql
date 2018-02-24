@@ -1,0 +1,15 @@
+SET HEAD OFF
+SET TERM OFF
+SET ECHO OFF
+SET FEEDBACK OFF
+SET TRIMSPOOL ON
+SET COLSEP ";"
+spool ${ficdata}
+set linesize 2000;
+select 
+TO_CHAR(CLI_ID),
+TO_CHAR(CLI_LIBEL)
+from
+P29B_CLIENTS
+  ; 
+spool off

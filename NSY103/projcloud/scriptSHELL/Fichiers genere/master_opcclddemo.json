@@ -1,0 +1,40 @@
+#le master nous permet de definir un plan de lancement des diffetants fichiés dans notre cas le volume et l'instance 
+{
+#commantaire description du fichiere le chemain definie l'emplacement ou affecter le nom dans l'espace cloud
+"name": "/Compute-kamel/kamel.hem@capgemini.com/master",
+#configuration du master attaché a la machine virtuel (configuration de la machine virtuel
+"oplans": [
+{
+#nom que l'on donne au master dans le compte oracle dans le volet stockage
+"label": "instance",
+"obj_type": "orchestration",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-kamel/kamel.hem@capgemini.com/instance"
+}
+]
+},
+{
+"label": "volume",
+"obj_type": "orchestration",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-kamel/kamel.hem@capgemini.com/volume"
+}
+]
+}
+],
+"relationships": [
+{
+#non dison que les plan de lancement de l'instance et du volumes sont liees 
+"oplan": "instance",
+"to_oplan": "volume",
+"type": "depends"
+}
+]
+}
+
+
+

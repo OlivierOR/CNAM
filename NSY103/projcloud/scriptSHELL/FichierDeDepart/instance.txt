@@ -1,0 +1,39 @@
+{
+"description": "SSimple orchestration plan with ssh keys and security list",
+"name": "/Compute-<IdentityDomain>/<username>/instance_<LAB>",
+"oplans": [
+{
+"label": "instance_<LAB>",
+"obj_type": "launchplan",
+"ha_policy": "active",
+"objects": [
+{
+"instances": [
+{
+"imagelist" : "/oracle/public/OL-6.6-20GB-x11-RD",
+"label": "instance_<LAB>",
+"storage_attachments": [
+{
+"index": 1,
+"volume": "/Compute-<IdentityDomain>/<username>/volume_<LAB>"
+}
+],
+"networking": {
+"eth0": {
+"seclists": [
+"/Compute-<IdentityDomain>/default/default"
+],
+"nat": "ippool:/oracle/public/ippool"
+}
+},
+"shape": "oc3",
+"sshkeys": [
+"/Compute-<IdentityDomain>/<username>/<your-ssh-keys>"
+]
+}
+]
+}
+]
+}
+]
+}

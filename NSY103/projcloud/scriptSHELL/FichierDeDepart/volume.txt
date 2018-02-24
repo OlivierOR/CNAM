@@ -1,0 +1,19 @@
+{
+"description": "SSimple orchestration plan with ssh keys and security list",
+"name": "/Compute-<IdentityDomain>/<username>/volume_<LAB>",
+"oplans": [
+{
+"label": "volume_<LAB>",
+"obj_type": "storage/volume",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-<IdentityDomain>/<username>/volume_<LAB>",
+"size": "22G",
+"index": 1,
+"properties":["/oracle/public/storage/default"]
+}
+]
+}
+]
+}

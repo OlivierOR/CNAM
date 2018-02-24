@@ -1,0 +1,8 @@
+Que fait cette commande : mv -R myFolder ~/Desktop/myFolder?
+1.Copie myFolder sur le bureau (et son contenu)
+2.Déplace myFolder sur le bureau (sans son contenu)
+3.Copie myFolder sur le bureau (sans son contenu)
+4.Déplace myFolder sur le bureau (avec son contenu)
+#SolutionQ:4
+#BonneReponseQ:2
+#MauvaiseReponseQ:9

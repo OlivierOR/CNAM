@@ -1,0 +1,8 @@
+Que fait la commande chown ?
+1.Modifie le nom d'un fichier
+2.Modifie le propriétaire et le groupe d'un fichier
+3.Ajoute des droits d'écriture sur un fichier
+4.Ajoute des droits de lecture et d'exécution sur un fichier
+#SolutionQ:2
+#BonneReponseQ:5
+#MauvaiseReponseQ:0

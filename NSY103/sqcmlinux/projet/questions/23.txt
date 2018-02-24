@@ -1,0 +1,8 @@
+Que fait cette ligne (sous Ubuntu) : sudo dpkg -i xxxx.deb?
+1.Rien, cette ligne est débile
+2.Va lister le répertoire xxxx.deb
+3.Va tuer le zombi xxxx.deb
+4.Va installer le paquet xxxx.deb
+#SolutionQ:4
+#BonneReponseQ:2
+#MauvaiseReponseQ:4

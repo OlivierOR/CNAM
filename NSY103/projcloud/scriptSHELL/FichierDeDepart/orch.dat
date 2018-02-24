@@ -1,0 +1,43 @@
+#!/bin/bash
+#------------------------------------------------------------------------------------------
+# POST : Crée un objet en utilisant les données au format JSON dans le corps de la requête
+# -i : Affiche les informations d'en-tête de réponse.
+# -X : Indique le type de demande, comme GET, POST, DELETE ou PUT.
+# -H : Définit un ou les deux suivants:
+#		Type de contenu du document de demande
+#		Accepter l'en-tête
+# -d : Identifie le document de demande, au format JSON, sur la machine locale.
+#
+#-----------------------------------------------------------------------------------------
+#la commande nous permet d'ouvrire l'accee a notre compte cloud pour gerer notre compte par ligne de commande (creation, recuperation d'information liee a notree compte ...)
+COMPUTE_COOKIE=`curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json"  -d  '{"password": "<Password>", "user": "/Compute-<IdentityDomain>/<username>"}'   https://api-<zone>.compute.<Datacentre>.oraclecloud.com/authenticate/ | grep Cookie |sed '{s/Set-Cookie: //}'`
+# la commdande nous permet de telecharger dans le compte cloud les fichires plan des differentes orchestrations 
+echo "Add the Master Orchestration: "
+curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@master_<IdentityDomain>.json" -H "Cookie: $COMPUTE_COOKIE"  https://api-<zone>.compute.<Datacentre>.oraclecloud.com/orchestration/
+
+echo "Add the Instance Orchestration:"
+ curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@instance_<IdentityDomain>.json" -H "Cookie: $COMPUTE_COOKIE"  https://api-<zone>.compute.<Datacentre>.oraclecloud.com/orchestration/
+
+echo "Add the Volume Orchestration:"
+curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@volume_<IdentityDomain>.json" -H "Cookie: $COMPUTE_COOKIE" https://api-<zone>.compute.<Datacentre>.oraclecloud.com/orchestration/
+# la commande nous permet de démarrer le master qui a son tour demande l'instance et le volume  
+echo "Start the Orchestration"
+curl -i -X PUT -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE" https://api-<zone>.compute.<Datacentre>.oraclecloud.com/orchestration/Compute-<IdentityDomain>/<username>/master? action=START
+
+sleep 180
+# il nous peremet de verifier que le volume a bien etait crée dans le compte cloud 
+echo "Verify the Volume  creation via  Orchestration"
+curl -i -X GET -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE"  https://api-<zone>.compute.<Datacentre>.oraclecloud.com/storage/volume/Compute-<IdentityDomain>/<username>/volume/
+
+sleep 120
+# il nous peremet de verifier que l'instance a bien etait crée dans le compte cloud 
+echo "Verify the Instance creation via  Orchestration"
+curl -i -X GET -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE"  https://api-<zone>.compute.<Datacentre>.oraclecloud.com/instance/Compute-<IdentityDomain>/<username>/instance/
+
+
+## il nous peremet de stopper le master ce qui entraine l'arret du  volume et de l'instance 
+echo "Stop the Orchestration"
+curl -i -X PUT -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE" https://api-<zone>.compute.<Datacentre>.oraclecloud.com/orchestration/Compute-<IdentityDomain>/<username>/master? action=STOP
+
+
+

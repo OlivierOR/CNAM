@@ -1,0 +1,8 @@
+Que fait la commande ps ?
+1.Indique la date
+2.Indique l'heure
+3.Affiche les processus actifs
+4.Affiche les droits d'un fichier
+#SolutionQ:3
+#BonneReponseQ:0
+#MauvaiseReponseQ:3

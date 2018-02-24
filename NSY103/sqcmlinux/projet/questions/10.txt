@@ -1,0 +1,8 @@
+Que fait la commande touch ?
+1.Modifie l'horodatage d'un fichier
+2.Modifie un fichier texte
+3.Efface un fichier
+4.Efface un dossier
+#SolutionQ:1
+#BonneReponseQ:3
+#MauvaiseReponseQ:4

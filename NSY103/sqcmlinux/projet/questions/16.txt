@@ -1,0 +1,8 @@
+Quelle commande permet de comparer deux fichiers ?
+1.Dif
+2.Compare
+3.Cmp
+4.Diff
+#SolutionQ:4
+#BonneReponseQ:3
+#MauvaiseReponseQ:2

@@ -1,0 +1,8 @@
+Quelle commande permet de renommer un fichier ?
+1.Rename
+2.Rn
+3.Ren
+4.Rname
+#SolutionQ:1
+#BonneReponseQ:1
+#MauvaiseReponseQ:5

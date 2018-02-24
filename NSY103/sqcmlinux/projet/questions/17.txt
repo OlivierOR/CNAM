@@ -1,0 +1,8 @@
+Quelle commande permet d'afficher les interfaces réseaux ?
+1.Ifconfig
+2.Ipconfig
+3.Ethconfig
+4.Faconfig
+#SolutionQ:1
+#BonneReponseQ:2
+#MauvaiseReponseQ:6

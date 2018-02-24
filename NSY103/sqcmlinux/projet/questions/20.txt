@@ -1,0 +1,8 @@
+Que veux dire 9.10 dans Ubuntu 9.10 ?
+1.Octobre 2009
+2.Septembre 2010
+3.C'est la version du noyau utilisé
+4.C'est une version intermédiaire entre la 9 et la 10
+#SolutionQ:1
+#BonneReponseQ:4
+#MauvaiseReponseQ:6

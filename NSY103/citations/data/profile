@@ -1,0 +1,4 @@
+bash /usr/local/citation.sh
+
+echo "Votre dernière connexion :"
+lastlog | grep $(whoami)

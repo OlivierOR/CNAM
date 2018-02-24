@@ -1,0 +1,33 @@
+#!/bin/bash
+
+COMPUTE_COOKIE=`curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json"  -d  '{"password": "********", "user": "/Compute-capgemingbebri/loic.gbebri@capgemini.com"}'   https://api-z13.compute.em2.oraclecloud.com/authenticate/ | grep Cookie |sed '{s/Set-Cookie: //}'`
+
+echo "Add the Master Orchestration: "
+curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@master_capgemingbebri.json" -H "Cookie: $COMPUTE_COOKIE"  https://api-z13.compute.em2.oraclecloud.com/orchestration/
+
+echo "Add the Instance Orchestration:"
+ curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@instance_capgemingbebri.json" -H "Cookie: $COMPUTE_COOKIE"  https://api-z13.compute.em2.oraclecloud.com/orchestration/
+
+echo "Add the Volume Orchestration:"
+curl -i -X POST -H "Content-Type: application/oracle-compute-v3+json" -d "@volume_capgemingbebri.json" -H "Cookie: $COMPUTE_COOKIE" https://api-z13.compute.em2.oraclecloud.com/orchestration/
+
+echo "Start the Orchestration"
+curl -i -X PUT -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE" https://api-z13.compute.em2.oraclecloud.com/orchestration/Compute-capgemingbebri/loic.gbebri@capgemini.com/master? action=START
+
+sleep 180
+
+echo "Verify the Volume  creation via  Orchestration"
+curl -i -X GET -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE"  https://api-z13.compute.em2.oraclecloud.com/storage/volume/Compute-capgemingbebri/loic.gbebri@capgemini.com/volume/
+
+sleep 120
+
+echo "Verify the Instance creation via  Orchestration"
+curl -i -X GET -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE"  https://api-z13.compute.em2.oraclecloud.com/instance/Compute-capgemingbebri/loic.gbebri@capgemini.com/instance/
+
+
+
+echo "Stop the Orchestration"
+curl -i -X PUT -H "Content-Type: application/oracle-compute-v3+json" -H "Cookie: $COMPUTE_COOKIE" https://api-z13.compute.em2.oraclecloud.com/orchestration/Compute-capgemingbebri/loic.gbebri@capgemini.com/master? action=STOP
+
+
+

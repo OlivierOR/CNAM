@@ -1,0 +1,8 @@
+Quelle commande permet d'afficher le contenu d'un fichier ?
+1.Dog
+2.Pig
+3.Cat
+4.Cow
+#SolutionQ:3
+#BonneReponseQ:1
+#MauvaiseReponseQ:6

@@ -1,0 +1,8 @@
+Quelle commande permet de consulter le manuel d'une commande ?
+1.Man
+2.Help
+3.Sos
+4.Manual
+#SolutionQ:1
+#BonneReponseQ:4
+#MauvaiseReponseQ:7

@@ -1,0 +1,8 @@
+Quelle commande permet de supprimer un dossier ?
+1.Rmdir
+2.Removedir
+3.Deldir
+4.Deletedir
+#SolutionQ:1
+#BonneReponseQ:2
+#MauvaiseReponseQ:8

@@ -1,0 +1,35 @@
+{
+"name": "/Compute-<IdentityDomain>/<username>/master_<LAB>",
+"oplans": [
+{
+"label": "instance_<LAB>",
+"obj_type": "orchestration",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-<IdentityDomain>/<username>/instance_<LAB>"
+}
+]
+},
+{
+"label": "volume_<LAB>",
+"obj_type": "orchestration",
+"ha_policy": "monitor",
+"objects": [
+{
+"name": "/Compute-<IdentityDomain>/<username>/volume_<LAB>"
+}
+]
+}
+],
+"relationships": [
+{
+"oplan": "instance_<LAB>",
+"to_oplan": "volume_<LAB>",
+"type": "depends"
+}
+]
+}
+
+
+

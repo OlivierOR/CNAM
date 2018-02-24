@@ -1,0 +1,8 @@
+Quelle commande permet de copier un fichier ?
+1.CTRL + C
+2.Copy
+3.Copie
+4.Cp
+#SolutionQ:4
+#BonneReponseQ:3
+#MauvaiseReponseQ:8

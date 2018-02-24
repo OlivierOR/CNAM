@@ -1,0 +1,8 @@
+Quelle commande permet de lister un répertoire ?
+1.Chmod
+2.Ls
+3.Su
+4.Top
+#SolutionQ:2
+#BonneReponseQ:6
+#MauvaiseReponseQ:1
